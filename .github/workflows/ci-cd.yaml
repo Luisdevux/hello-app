@@ -37,10 +37,10 @@ jobs:
             
             - name: Atualizar imagem no deployment manifest
               run: |
-                sed -i "s|image: .*|image: ${{ secrets.DOCKER_USERNAME }}/hello-app:${{ github.run_number }}|g" manifests-repo/deployment.yaml
+                sed -i "s|^\s*image: .*|image: ${{ secrets.DOCKER_USERNAME }}/hello-app:${{ github.run_number }}|g" manifests-repo/deployment.yaml
                 cd manifests-repo
                 git config --global user.name "github-actions"
                 git config --global user.email "actions@github.com"
                 git add deployment.yaml
-                git commit -m "Atualiza imagem para tag ${{ github.run_number }}"
+                git commit -m "Atualiza imagem para tag ${{ github.run_number }}" || echo "Nenhuma mudança para commitar"
                 git push origin main
