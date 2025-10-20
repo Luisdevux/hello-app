@@ -37,11 +37,11 @@ jobs:
             
             - name: Atualizar imagem no deployment manifest
               run: |
-                sed -i "s|^\s*image: .*|image: ${{ secrets.DOCKER_USERNAME }}/hello-app:${{ github.run_number }}|g" manifests-repo/deployment.yaml
+                sed -i "s|^\s*image: .*|image: ${{ secrets.DOCKER_USERNAME }}/hello-app:${{ github.run_number }}|g" manifests-repo/k8s/deployment.yaml
                 cd manifests-repo
                 git config --global user.name "github-actions"
                 git config --global user.email "actions@github.com"
-                git add deployment.yaml
+                git add k8s/deployment.yaml
                 git commit -m "Atualiza imagem para tag ${{ github.run_number }}" || echo "Nenhuma mudança para commitar"
                 git push origin main
 
@@ -51,4 +51,4 @@ jobs:
 
             - name: Aplicar deployment no Kubernetes
               run: |
-                kubectl apply -f manifests-repo/deployment.yaml
+                kubectl apply -f manifests-repo/k8s/deployment.yaml
