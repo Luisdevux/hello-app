@@ -1,0 +1,162 @@
+# =========================
+# Python / Django
+# =========================
+*.pyc
+__pycache__/
+db.sqlite3
+/media
+/staticfiles
+.env
+*.pot
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info
+*.egg
+*.whl
+*.migrations
+*.log
+*.bak
+*.swp
+*.swo
+*.DS_Store
+*.idea
+*.vscode
+
+# =========================
+# Node / NPM / PNPM / Yarn
+# =========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+
+# Mantém o lock file versionado (recomendado)
+# (não ignore package-lock.json / pnpm-lock.yaml / yarn.lock)
+
+# =========
+# Ambiente
+# =========
+# Versione apenas um exemplo (.env.example / .env.sample)
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# ============
+# Logs & PIDs
+# ============
+logs/
+*.log
+logs/**/*.log
+pids/
+*.pid
+*.pid.lock
+
+# =================
+# Cobertura & Tests
+# =================
+coverage/
+coverage-final.json
+.nyc_output/
+.vitest/
+jest-html-reporters-*.html
+jest-stare/
+
+# ===========
+# Build/Cache
+# ===========
+dist/
+build/
+lib/
+.cache/
+.tmp/
+temp/
+tmp/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+.tsbuildinfo
+
+# Vite / Vitest
+.vite/
+.vite-temp/
+
+# -----------
+# Ferramentas
+# -----------
+.cache-loader/
+.rollup.cache/
+.babel.cache/
+*.tsbuildinfo
+
+# ==========
+# Plataforma
+# ==========
+# Vercel / Netlify / etc (se usar)
+.vercel/
+.netlify/
+
+# ==========
+# IDE / SO
+# ==========
+.vscode/
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# =========================
+# Uploads/Artefatos em disco
+# =========================
+# Caso tenha uploads públicos, mantenha um .gitkeep
+public/uploads/**
+!public/uploads/.gitkeep
+
+# Sessões (pasta na raiz usada em runtime)
+sessions/**
+!sessions/.gitkeep
+
+# =====================
+# Dados locais / Backups
+# =====================
+data/
+storage/
+docker-data/
+mongodb-data/
+dump/
+*.dump
+*.bak
+*.backup
+*.tar
+*.tgz
+*.gz
+
+# ======================
+# Docker / Compose extra
+# ======================
+# Ignore volumes/artefatos gerados localmente
+*.local.yml
+docker/*.local.*
+docker/*-override.yml
+
+# ==============
+# GraphQL/Apollo
+# ==============
+# Mantenha seus SDL/Schema no repositório (schema/*.graphqls)
+# Não ignore a pasta schema/
+# (Abaixo apenas caches temporários, se gerados por ferramentas)
+.graphqlrc.local
+.graphql-config.local.yaml
+
+# =================
+# Documentação temp
+# =================
+.out/
+.spa/
+.docz/
+.storybook-out/
