@@ -44,3 +44,11 @@ jobs:
                 git add deployment.yaml
                 git commit -m "Atualiza imagem para tag ${{ github.run_number }}" || echo "Nenhuma mudança para commitar"
                 git push origin main
+
+            - name: Configurar kubectl
+              run: |
+                echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 --decode > $HOME/.kube/config
+
+            - name: Aplicar deployment no Kubernetes
+              run: |
+                kubectl apply -f manifests-repo/deployment.yaml
