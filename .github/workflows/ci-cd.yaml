@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on: 
   push:
     branches:
-        [ main ]
+          - main
 
 jobs:
     build-and-deploy:
@@ -47,6 +47,7 @@ jobs:
 
             - name: Configurar kubectl
               run: |
+                mkdir -p $HOME/.kube
                 echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 --decode > $HOME/.kube/config
 
             - name: Aplicar deployment no Kubernetes
