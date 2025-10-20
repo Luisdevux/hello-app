@@ -34,13 +34,21 @@ jobs:
             - name: Clonar repositório de manifests
               run: |
                 git clone git@github.com:Luisdevux/hello-manifests.git manifests-repo
-            
+
             - name: Atualizar imagem no deployment manifest
               run: |
-                sed -i "s|^\s*image: .*|image: ${{ secrets.DOCKER_USERNAME }}/hello-app:${{ github.run_number }}|g" manifests-repo/k8s/deployment.yaml
+                sudo apt-get update && sudo apt-get install -y wget
+                wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O $HOME/yq
+                chmod +x $HOME/yq
+                sudo mv $HOME/yq /usr/local/bin/yq
+                yq --version
+
+                IMAGE_TAG=${{ github.run_number }}
+                yq -i ".spec.template.spec.containers[0].image = \"${{ secrets.DOCKER_USERNAME }}/hello-app:${IMAGE_TAG}\"" manifests-repo/k8s/deployment.yaml
+
                 cd manifests-repo
                 git config --global user.name "github-actions"
                 git config --global user.email "actions@github.com"
                 git add k8s/deployment.yaml
-                git commit -m "Atualiza imagem para tag ${{ github.run_number }}" || echo "Nenhuma mudança para commitar"
+                git commit -m "Atualiza imagem para tag ${IMAGE_TAG}" || echo "Nenhuma mudança para commitar"
                 git push origin main
