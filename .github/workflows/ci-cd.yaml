@@ -1,6 +1,6 @@
 name: CI/CD Pipeline
 
-on: 
+on:
   push:
     branches:
       - main
@@ -26,23 +26,22 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/hello-app:${{ github.run_number }}
 
-      - name: Configurar acesso SSH para o repositório de manifests
+      - name: Configurar SSH
         uses: webfactory/ssh-agent@v0.7.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-      
-      - name: Clonar repositório de manifests
-        run: |
-          git clone git@github.com:Luisdevux/hello-manifests.git manifests-repo
 
-      - name: Install yq v4
+      - name: Clonar repositório de manifests
+        run: git clone git@github.com:Luisdevux/hello-manifests.git manifests-repo
+
+      - name: Instalar yq
         run: |
           wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O $HOME/yq
           chmod +x $HOME/yq
           sudo mv $HOME/yq /usr/local/bin/yq
           yq --version
 
-      - name: Atualizar imagem no deployment manifest e commitar
+      - name: Atualizar imagem no deployment
         run: |
           IMAGE_TAG=${{ github.run_number }}
           yq -i ".spec.template.spec.containers[0].image = \"${{ secrets.DOCKER_USERNAME }}/hello-app:${IMAGE_TAG}\"" manifests-repo/k8s/deployment.yaml
@@ -53,16 +52,20 @@ jobs:
           git commit -m "Atualiza imagem para tag ${IMAGE_TAG}" || echo "Nenhuma mudança para commitar"
           git push origin main
 
-      - name: Set up kubectl
+      - name: Setup kubectl
         uses: azure/setup-kubectl@v3
         with:
           version: '1.28.0'
 
-      - name: Configure kubeconfig
+      - name: Configurar kubeconfig
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
         run: |
           mkdir -p $HOME/.kube
-          echo "${{ secrets.KUBE_CONFIG_DATA}}" | base64 --decode > $HOME/.kube/config
+          echo "$KUBE_CONFIG_DATA" | base64 --decode > $HOME/.kube/config
 
-      - name: Apply Kubernetes manifests
-        run: |
-          kubectl apply -f manifests-repo/k8s/
+      - name: Aplicar manifests no Kubernetes
+        run: kubectl apply -f manifests-repo/k8s/
+
+      - name: Esperar rollout do deployment
+        run: kubectl rollout status deployment/hello-app
