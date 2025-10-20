@@ -61,8 +61,8 @@ jobs:
       - name: Configure kubeconfig
         run: |
           mkdir -p $HOME/.kube
-          echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > $HOME/.kube/config
+          echo "${{ secrets.KUBE_CONFIG_DATA}}" | base64 --decode > $HOME/.kube/config
 
       - name: Apply Kubernetes manifests
         run: |
-          kubectl apply -f manifests-r
+          kubectl apply -f manifests-repo/k8s/
