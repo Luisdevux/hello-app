@@ -4,6 +4,7 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/luisfelipe1812/hello-app?style=for-the-badge&logo=docker)](https://hub.docker.com/r/luisfelipe1812/hello-app)
 [![Docker Image Size](https://img.shields.io/docker/image-size/luisfelipe1812/hello-app?style=for-the-badge)](https://hub.docker.com/r/luisfelipe1812/hello-app)
 [![Source Code](https://img.shields.io/badge/GitHub-código_fonte-181717?style=for-the-badge&logo=github)](https://github.com/Luisdevux/hello-app)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 
 Este projeto implementa um pipeline completo de **Integração Contínua e Entrega Contínua (CI/CD)** para uma aplicação **FastAPI**, utilizando:
@@ -122,7 +123,7 @@ jobs:
                 push: true
                 tags: ${{ secrets.DOCKER_USERNAME }}/hello-app:${{ github.run_number }}
 
-            - name: Configurar acesso SSH para o repositório de manifests privado
+            - name: Configurar acesso SSH para o repositório de manifests
               uses: webfactory/ssh-agent@v0.7.0
               with:
                 ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -222,7 +223,7 @@ spec:
 
 ### Pipeline executando com sucesso
 
-![UI Argo CD](./img/Workflow-passed.png)
+![Pipeline executando com sucesso](./img/Workflow-passed.png)
 
 ---
 
