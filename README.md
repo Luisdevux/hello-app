@@ -71,6 +71,10 @@ async def root():
     return {"message": "Hello World"}
 ```
 
+### Para a imagem docker deste código, acesse o repositório no Dockerhub:
+
+### ➡️ hello-app: https://hub.docker.com/r/luisfelipe1812/hello-app
+
 ---
 
 ### **2️⃣ Dockerfile**
